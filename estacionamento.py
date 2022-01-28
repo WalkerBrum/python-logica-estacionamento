@@ -2,7 +2,6 @@ from datetime import datetime, date
 from math import ceil
 
 
-
 cnpj = str('00.125.123/0001-12')
 nome_estacionamento = str('Carangola Parking')
 endereço = str('Rua Presidente Kennedy, 333 - Centro - Carangola MG')
@@ -21,7 +20,6 @@ count = 0
 faturamento = 0
 saida_estacionamento = list()
 entradas_estacionamento = list()
-saida_veiculos = dict()
 
 while True:
 
@@ -30,7 +28,12 @@ while True:
     print()
 
     info_veiculo = dict()
-    opcao = int(input('[1] - Entrada de veículo\n[2] - Saída de veículo\n[3] - Informações estacionamento\n[4] - Sair do sistema\nEscolha uma opção: '))   
+    try:
+        opcao = int(input('[1] - Entrada de veículo\n[2] - Saída de veículo\n[3] - Informações estacionamento\n[4] - Sair do sistema\nEscolha uma opção: '))  
+    except ValueError:
+        print()
+        print(ValueError)
+        continue
 
     print()          
     
@@ -40,16 +43,22 @@ while True:
             print('Estacionamento não tem vagas disponíveis')
             continue
         else:
-            info_veiculo['Vaga'] = vaga
-            info_veiculo['Nome do motorista'] = input('Nome do motorista: ')
-            info_veiculo['Idade'] = int(input('Idade: '))
-            info_veiculo['Deficiente físico'] = input('Deficiente físico: ')
-            info_veiculo['Horário de entrada'] = datetime.today().strftime('%H:%M')
-            info_veiculo['Tipo veículo'] = str(input('Tipo veículo: '))
-            info_veiculo['Cor veículo'] = str(input('Cor veículo: '))
-            info_veiculo['Ano veículo'] = str(input('Ano veículo: '))
-            info_veiculo['Placa veículo'] = str(input('Placa veículo: '))
-            
+
+            try:
+                info_veiculo['Vaga'] = vaga
+                info_veiculo['Nome do motorista'] = input('Nome do motorista: ')
+                info_veiculo['Idade'] = int(input('Idade: '))
+                info_veiculo['Deficiente físico'] = input('Deficiente físico: ')
+                info_veiculo['Tipo veículo'] = str(input('Tipo veículo: '))
+                info_veiculo['Cor veículo'] = str(input('Cor veículo: '))
+                info_veiculo['Ano veículo'] = str(input('Ano veículo: '))
+                info_veiculo['Placa veículo'] = str(input('Placa veículo: '))
+                info_veiculo['Horário de entrada'] = datetime.today().strftime('%H:%M')
+            except ValueError:
+                print()
+                print(ValueError)
+                continue
+                            
             if vagas_ocupadas == (total_vagas - total_vagas_especiais + vagas_especiais_ocupadas) and vagas_especiais_ocupadas < total_vagas_especiais and (info_veiculo['Idade'] < 65 or info_veiculo['Deficiente físico'] == 'sim'):
                 print('Total de vagas para quem não é idoso preenchidas')
                 continue
@@ -74,7 +83,10 @@ while True:
         
         if vagas_ocupadas > 0:
 
-            saida = int(input('Informe a vaga do veículo: '))
+            try:
+                saida = int(input('Informe a vaga do veículo: '))
+            except ValueError:
+                print(ValueError)
             
             saida_veiculos = entradas_estacionamento[saida - 1]
             
@@ -123,4 +135,7 @@ while True:
 
     elif int(opcao) == 4:
         break
+
+    else:
+        print('Opção inválida')
         
