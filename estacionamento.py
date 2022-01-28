@@ -20,6 +20,8 @@ count = 0
 faturamento = 0
 saida_estacionamento = list()
 entradas_estacionamento = list()
+entrada_veiculos = dict()
+saida_veiculos = dict()
 
 while True:
 
@@ -27,7 +29,6 @@ while True:
     print('##### SISTEMA DE ESTACIONAMENTO #####')
     print()
 
-    info_veiculo = dict()
     try:
         opcao = int(input('[1] - Entrada de veículo\n[2] - Saída de veículo\n[3] - Informações estacionamento\n[4] - Sair do sistema\nEscolha uma opção: '))  
     except ValueError:
@@ -40,27 +41,35 @@ while True:
     if int(opcao) == 1:
 
         if vagas_ocupadas == total_vagas:
-            print('Estacionamento não tem vagas disponíveis')
+            print('Estacionamento não tem vagas disponíveis.')
             continue
         else:
 
             try:
-                info_veiculo['Vaga'] = vaga
-                info_veiculo['Nome do motorista'] = input('Nome do motorista: ')
-                info_veiculo['Idade'] = int(input('Idade: '))
-                info_veiculo['Deficiente físico'] = input('Deficiente físico: ')
-                info_veiculo['Tipo veículo'] = str(input('Tipo veículo: '))
-                info_veiculo['Cor veículo'] = str(input('Cor veículo: '))
-                info_veiculo['Ano veículo'] = str(input('Ano veículo: '))
-                info_veiculo['Placa veículo'] = str(input('Placa veículo: '))
-                info_veiculo['Horário de entrada'] = datetime.today().strftime('%H:%M')
+               entrada_veiculos['Vaga'] = vaga
+               entrada_veiculos['Nome do motorista'] = input('Nome do motorista: ')
+               entrada_veiculos['Idade'] = int(input('Idade: '))
+
+               while True:
+                 entrada_veiculos['Deficiente físico'] = input('Deficiente físico: ')
+
+                 if entrada_veiculos['Deficiente físico'].lower() == 'sim' or entrada_veiculos['Deficiente físico'].lower() == 'não':
+                    break
+                 else: 
+                    print('Entrada inválida! Digite [sim] ou [não].')
+
+               entrada_veiculos['Tipo veículo'] = str(input('Tipo veículo: '))
+               entrada_veiculos['Cor veículo'] = str(input('Cor veículo: '))
+               entrada_veiculos['Ano veículo'] = str(input('Ano veículo: '))
+               entrada_veiculos['Placa veículo'] = str(input('Placa veículo: '))
+               entrada_veiculos['Horário de entrada'] = datetime.today().strftime('%H:%M')
             except ValueError:
                 print()
                 print(ValueError)
                 continue
                             
-            if vagas_ocupadas == (total_vagas - total_vagas_especiais + vagas_especiais_ocupadas) and vagas_especiais_ocupadas < total_vagas_especiais and (info_veiculo['Idade'] < 65 or info_veiculo['Deficiente físico'] == 'sim'):
-                print('Total de vagas para quem não é idoso preenchidas')
+            if vagas_ocupadas == (total_vagas - total_vagas_especiais + vagas_especiais_ocupadas) and vagas_especiais_ocupadas < total_vagas_especiais and (entrada_veiculos['Idade'] < 65 or entrada_veiculos['Deficiente físico'] == 'sim'):
+                print('Total de vagas para quem não é idoso preenchidas.')
                 continue
             
             vaga += 1
@@ -70,14 +79,11 @@ while True:
 
             print()
 
-            if info_veiculo['Idade'] >= 65 and vagas_especiais_ocupadas < total_vagas_especiais:
+            if entrada_veiculos['Idade'] >= 65 and vagas_especiais_ocupadas < total_vagas_especiais:
                 vagas_especiais_disponiveis -= 1 
                 vagas_especiais_ocupadas += 1
 
-            entradas_estacionamento.append(info_veiculo.copy())
-
-
-            print(entradas_estacionamento)
+            entradas_estacionamento.append(entrada_veiculos.copy())
 
     elif int(opcao) == 2:
         
@@ -87,6 +93,7 @@ while True:
                 saida = int(input('Informe a vaga do veículo: '))
             except ValueError:
                 print(ValueError)
+                break
             
             saida_veiculos = entradas_estacionamento[saida - 1]
             
@@ -110,6 +117,7 @@ while True:
             faturamento_medio = faturamento / len(saida_estacionamento)
             
             for i, j in saida_veiculos.items():
+                # Horário sempre arredondado para cima, então se ficar 20 minutos vai pagar como 1 hora
                 print(f'{i} = {j}')
             
             del(entradas_estacionamento[(saida - 1)])
@@ -119,7 +127,7 @@ while True:
             quant_saidas += 1   
 
         else:
-            print('Estacionamento com nenhum vaga ocupada')
+            print('Estacionamento com nenhum vaga ocupada.')
 
     elif int(opcao) == 3:
 
@@ -137,5 +145,5 @@ while True:
         break
 
     else:
-        print('Opção inválida')
+        print('Opção inválida.')
         
