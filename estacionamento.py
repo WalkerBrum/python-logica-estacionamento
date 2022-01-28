@@ -54,9 +54,6 @@ while True:
                 print('Total de vagas para quem não é idoso preenchidas')
                 continue
             
-          
-            
-            
             vaga += 1
             vagas_disponiveis -= 1
             vagas_ocupadas += 1
@@ -107,8 +104,7 @@ while True:
 
             vagas_disponiveis += 1
             vagas_ocupadas -= 1
-            quant_saidas += 1
-            
+            quant_saidas += 1   
 
         else:
             print('Estacionamento com nenhum vaga ocupada')
