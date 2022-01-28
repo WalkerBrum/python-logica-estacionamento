@@ -45,17 +45,18 @@ while True:
             info_veiculo['Idade'] = int(input('Idade: '))
             info_veiculo['Deficiente físico'] = input('Deficiente físico: ')
             info_veiculo['Horário de entrada'] = datetime.today().strftime('%H:%M')
+            info_veiculo['Tipo veículo'] = str(input('Tipo veículo: '))
+            info_veiculo['Cor veículo'] = str(input('Cor veículo: '))
+            info_veiculo['Ano veículo'] = str(input('Ano veículo: '))
+            info_veiculo['Placa veículo'] = str(input('Placa veículo: '))
             
             if vagas_ocupadas == (total_vagas - total_vagas_especiais + vagas_especiais_ocupadas) and vagas_especiais_ocupadas < total_vagas_especiais and (info_veiculo['Idade'] < 65 or info_veiculo['Deficiente físico'] == 'sim'):
                 print('Total de vagas para quem não é idoso preenchidas')
                 continue
             
-            """
-            entrada_veiculo['Tipo veículo'] = str(input('Tipo veículo: '))
-            entrada_veiculo['Cor veículo'] = str(input('Cor veículo: '))
-            entrada_veiculo['Ano veículo'] = str(input('Ano veículo: '))
-            entrada_veiculo['Placa veículo'] = str(input('Placa veículo: '))
-            """  
+          
+            
+            
             vaga += 1
             vagas_disponiveis -= 1
             vagas_ocupadas += 1
